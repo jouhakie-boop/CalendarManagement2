@@ -122,9 +122,9 @@
                     {
             Console.WriteLine(events);
         }
-        }
+        }  // 3 errors in if statement brakets
 
-                }
+    }
                 else if (viewReminder == "N")
                 {
                     Console.WriteLine("Thank you for using Calendar Management System!");
