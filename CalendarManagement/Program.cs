@@ -10,7 +10,7 @@
             string Eventtime, Remindertime;
             string RemindersName;
             string typesOfEvents ;
-            string continueReminder1, continueReminder2, continueEvent1;
+            string continueReminder1, continueReminder2, continueEvent1, continueEvent2;
 
             //Create Repeat Update Delete
             Console.WriteLine("Welcome to Calendar Management System");
@@ -88,7 +88,32 @@
                 events.Add(Eventdate);
                 events.Add(Eventday);
                 events.Add(Eventtime);
-            }
+
+                Console.WriteLine("Would you like to continue? (Y/N):")
+                if (continueEvent1 == "Y")
+                {
+                    Console.WriteLine("Would you like to View the Event? (Y/N): ");
+                    if (continueEvent2)
+                    {
+                        Console.Write("Enter the Name or Title of the Event: ");
+                        eventsName = Console.ReadLine();
+                        Console.Write("Enter Date(February 10, 2026: ");
+                        Eventdate = Console.ReadLine();
+                        Console.Write("Enter Day(Tuesday): ");
+                        Eventday = Console.ReadLine();
+                        Console.Write("Enter Time Thrusday(9:00PM): ");
+                        Eventtime = Console.ReadLine();
+
+                        events.Add(eventsName);
+                        events.Add(Eventdate);
+                        events.Add(Eventday);
+                        events.Add(Eventtime);
+                    }
+                    else if (continueReminder2 == "N")
+                    {
+                        Console.WriteLine("Thank you for using Calendar Management System!");
+                    }
+                }
 
 
         }
