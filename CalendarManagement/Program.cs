@@ -11,9 +11,12 @@
             string RemindersName;
             string typesOfEvents ;
             string continueReminder1, continueReminder2, continueEvent1, continueEvent2;
+            string viewReminder, viewEvent;
 
             //Create Repeat Update Delete
+            Console.Write("---------------------------------------------------------------------");
             Console.WriteLine("Welcome to Calendar Management System");
+            Console.Write("---------------------------------------------------------------------");
 
             Console.WriteLine("Enter 'R' to Create an Reminder and 'E' for an Event: ");
             typesOfEvents = Console.ReadLine();
@@ -32,7 +35,8 @@
                 Remindertime = Console.ReadLine();
 
 
-                List<string> reminders = new List<string>();
+               // List<string> reminders = new List<string>();
+               var reminders = new List<string>();
 
                 reminders.Add(RemindersName);
                 reminders.Add(Reminderday);
@@ -41,10 +45,25 @@
 
                 Console.WriteLine("Reminder Created Successfully!");
 
-                  Console.WriteLine("Would you like to continue? (Y/N):")
+                Console.WriteLine("Would you like to View the Created Reminder? (Y/N):")
+                    if (viewReminder == "Y")
+                {
+                    foreach (var reminder in reminders)
+                    {
+                        Console.WriteLine(reminder);
+                    }
+
+                }
+                    else if (viewReminder == "N")
+                {
+                    Console.WriteLine("Thank you for using Calendar Management System!");
+                }
+
+                    Console.WriteLine("Would you like to continue? (Y/N):")
+           
                 if (continueReminder1 == "Y")
                 {
-                    Console.WriteLine("Would you like to View the Reminder? (Y/N): ");
+                    Console.WriteLine("Would you like to Create an another the Reminder? (Y/N): ");
                     if (continueReminder2)
                     {
                         Console.Write("Enter the Name or Title of the Reminder: ");
@@ -60,17 +79,21 @@
                         reminders.Add(Reminderday);
                         reminders.Add(Reminderday);
                         reminders.Add(Remindertime);
+
+                        Console.WriteLine("Reminder Created Successfully!");
                     }
                     else if (continueReminder2 == "N")
                     {
                         Console.WriteLine("Thank you for using Calendar Management System!");
+
                     }
-
-
                 }
                 Console.WriteLine("Would you like to Create an another Reminder? (Y/N): ");
                 string createAnotherEvent = Console.ReadLine();
             }
+
+
+
             else if (typesOfEvents == "E")
             {
                 Console.Write("Enter the Name or Title of the Event: ");
@@ -82,17 +105,35 @@
                 Console.Write("Enter Time Thrusday(9:00PM): ");
                 Eventtime = Console.ReadLine();
 
-                List<string> events = new List<string>();
+                // List<string> events = new List<string>();
+                var events = new List<string>();
 
                 events.Add(eventsName);
                 events.Add(Eventdate);
                 events.Add(Eventday);
                 events.Add(Eventtime);
 
+                Console.WriteLine("Event Created Successfully!");
+
+                Console.WriteLine("Would you like to View the Created Event? (Y/N):")
+                    if (viewReminder == "Y")
+                {
+                    foreach (var event in events)
+                    {
+            Console.WriteLine(events);
+        }
+        }
+
+                }
+                else if (viewReminder == "N")
+                {
+                    Console.WriteLine("Thank you for using Calendar Management System!");
+                }
+
                 Console.WriteLine("Would you like to continue? (Y/N):")
                 if (continueEvent1 == "Y")
                 {
-                    Console.WriteLine("Would you like to View the Event? (Y/N): ");
+                    Console.WriteLine("Would you like to Create an another the Event? (Y/N): ");
                     if (continueEvent2)
                     {
                         Console.Write("Enter the Name or Title of the Event: ");
