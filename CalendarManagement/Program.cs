@@ -10,6 +10,7 @@
             string Eventtime, Remindertime;
             string RemindersName;
             string typesOfEvents ;
+            string continueReminder1, continueReminder2, continueEvent1;
 
             //Create Repeat Update Delete
             Console.WriteLine("Welcome to Calendar Management System");
@@ -39,7 +40,35 @@
                 reminders.Add(Remindertime);
 
                 Console.WriteLine("Reminder Created Successfully!");
-                Console.WriteLine("Would you like to Create an another Event? (Y/N): ");
+
+                  Console.WriteLine("Would you like to continue? (Y/N):")
+                if (continueReminder1 == "Y")
+                {
+                    Console.WriteLine("Would you like to View the Reminder? (Y/N): ");
+                    if (continueReminder2)
+                    {
+                        Console.Write("Enter the Name or Title of the Reminder: ");
+                        RemindersName = Console.ReadLine();
+                        Console.Write("Enter Date(February 10, 2026: ");
+                        Reminderday = Console.ReadLine();
+                        Console.Write("Enter Day(Tuesday): ");
+                        Reminderday = Console.ReadLine();
+                        Console.Write("Enter Time Thrusday(9 PM/9 AM): ");
+                        Remindertime = Console.ReadLine();
+
+                        reminders.Add(RemindersName);
+                        reminders.Add(Reminderday);
+                        reminders.Add(Reminderday);
+                        reminders.Add(Remindertime);
+                    }
+                    else if (continueReminder2 == "N")
+                    {
+                        Console.WriteLine("Thank you for using Calendar Management System!");
+                    }
+
+
+                }
+                Console.WriteLine("Would you like to Create an another Reminder? (Y/N): ");
                 string createAnotherEvent = Console.ReadLine();
             }
             else if (typesOfEvents == "E")
