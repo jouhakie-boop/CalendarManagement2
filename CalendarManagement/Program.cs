@@ -26,7 +26,7 @@ namespace CalendarManagement
             Console.WriteLine("6. Update Event");
             Console.WriteLine("7. Exit");
 
-            Console.WriteLine("Please select an option:");
+            Console.Write("Please select an option: ");
             int choice = int.Parse(Console.ReadLine());
 
             if (choice == 1)      {  CreateReminder();    }
