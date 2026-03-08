@@ -5,7 +5,87 @@ namespace CalendarManagement
 {
     internal class Program
     {
-        static void Main(string[] args)
+
+        static void DisplayMenu()
+        {
+            int choice = 0;
+            Console.Write("-------------------------------\n");
+            Console.Write("Welcome to Calendar Management System!");
+            Console.Write("-------------------------------\n");
+
+
+            Console.WriteLine("1. Create Reminder");
+            Console.WriteLine("2. Create Event");
+            Console.WriteLine("3. View Reminders");
+            Console.WriteLine("4. View Events");
+            Console.WriteLine("5. Exit");
+
+            if (choice == 1)
+            {
+                Console.WriteLine(CreateReminder);
+            }
+            else if (choice == 2)  {
+                Console.WriteLine(CreateEvent);
+            }
+        }
+
+
+        static void CreateReminder()
+        {
+            Console.Write("Enter the Name or Title of the Reminder: ");
+            string RemindersName = Console.ReadLine();
+            Console.Write("Enter Date (February 10, 2026): ");
+            string Reminderdate = Console.ReadLine();
+            Console.Write("Enter Day (Tuesday): ");
+            string Reminderday = Console.ReadLine();
+            Console.Write("Enter Time (9 PM/9 AM): ");
+            string Remindertime = Console.ReadLine();
+            var reminders = new List<string>();
+            reminders.Add(RemindersName);
+            reminders.Add(Reminderdate);
+            reminders.Add(Reminderday);
+            reminders.Add(Remindertime);
+            Console.WriteLine("Reminder Created Successfully!");
+        }
+
+        static void CreateEvent()
+        {
+            Console.Write("Enter the Name or Title of the Event: ");
+            string eventsName = Console.ReadLine();
+            Console.Write("Enter Date (February 10, 2026): ");
+            string Eventdate = Console.ReadLine();
+            Console.Write("Enter Day (Tuesday): ");
+            string Eventday = Console.ReadLine();
+            Console.Write("Enter Time (9:00PM): ");
+            string Eventtime = Console.ReadLine();
+            var events = new List<string>();
+            events.Add(eventsName);
+            events.Add(Eventdate);
+            events.Add(Eventday);
+            events.Add(Eventtime);
+            Console.WriteLine("Event Created Successfully!");
+            }
+
+        static void ViewReminders()
+        {
+            var reminders = new List<string>();
+            foreach (var reminder in reminders)
+            {
+                Console.WriteLine(reminder);
+            }
+        }
+
+        static void ViewEvents()
+        {
+            var events = new List<string>();
+            foreach (var item in events)
+            {
+                Console.WriteLine(events);
+            }
+        }
+
+
+            static void Main(string[] args)
         {
             string eventsName;
             string Eventdate, Reminderdate;
@@ -17,145 +97,13 @@ namespace CalendarManagement
             string viewReminder, viewEvent;
 
             //Create Repeat Update Delete
-            Console.WriteLine("---------------------------------------------------------------------");
-            Console.WriteLine("Welcome to Calendar Management System");
-            Console.WriteLine("---------------------------------------------------------------------");
 
-            Console.WriteLine("Enter 'R' to Create an Reminder and 'E' for an Event: ");
-            typesOfEvents = Console.ReadLine();
+            DateTime now = DateTime.Now;
+            Console.WriteLine("Current Date and Time: " + now.ToString("MMMM dd, yyyy HH:mm:ss"));
+            Console.WriteLine(DisplayMenu);
 
-            if (typesOfEvents == "R")
-            {
-                Console.Write("Enter the Name or Title of the Reminder: ");
-                RemindersName = Console.ReadLine();
-                Console.Write("Enter Date (February 10, 2026): ");
-                Reminderdate = Console.ReadLine();
-                Console.Write("Enter Day (Tuesday): ");
-                Reminderday = Console.ReadLine();
-                Console.Write("Enter Time (9 PM/9 AM): ");
-                Remindertime = Console.ReadLine();
-
-                var reminders = new List<string>();
-
-                reminders.Add(RemindersName);
-                reminders.Add(Reminderdate);
-                reminders.Add(Reminderday);
-                reminders.Add(Remindertime);
-
-                Console.WriteLine("Reminder Created Successfully!");
-
-                Console.WriteLine("Would you like to View the Created Reminder? (Y/N):");
-                viewReminder = Console.ReadLine();
-                if (viewReminder == "Y")
-                {
-                    foreach (var reminder in reminders)
-                    {
-                        Console.WriteLine(reminder);
-                    }
-
-                }
-                else if (viewReminder == "N")
-                {
-                    Console.WriteLine("Thank you for using Calendar Management System!");
-                }
-
-                Console.WriteLine("Would you like to continue? (Y/N):");
-                continueReminder1 = Console.ReadLine();
-                if (continueReminder1 == "Y")
-                {
-                    Console.WriteLine("Would you like to Create another Reminder? (Y/N): ");
-                    continueReminder2 = Console.ReadLine();
-                    if (continueReminder2 == "Y")
-                    {
-                        Console.Write("Enter the Name or Title of the Reminder: ");
-                        RemindersName = Console.ReadLine();
-                        Console.Write("Enter Date (February 10, 2026): ");
-                        Reminderdate = Console.ReadLine();
-                        Console.Write("Enter Day (Tuesday): ");
-                        Reminderday = Console.ReadLine();
-                        Console.Write("Enter Time (9 PM/9 AM): ");
-                        Remindertime = Console.ReadLine();
-
-                        reminders.Add(RemindersName);
-                        reminders.Add(Reminderdate);
-                        reminders.Add(Reminderday);
-                        reminders.Add(Remindertime);
-
-                        Console.WriteLine("Reminder Created Successfully!");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Thank you for using Calendar Management System!");
-
-                    }
-                }
-                Console.WriteLine("Would you like to Create another Reminder? (Y/N): ");
-                string createAnotherEvent = Console.ReadLine();
-            }
-
-            else if (typesOfEvents == "E")
-            {
-                Console.Write("Enter the Name or Title of the Event: ");
-                eventsName = Console.ReadLine();
-                Console.Write("Enter Date (February 10, 2026): ");
-                Eventdate = Console.ReadLine();
-                Console.Write("Enter Day (Tuesday): ");
-                Eventday = Console.ReadLine();
-                Console.Write("Enter Time (9:00PM): ");
-                Eventtime = Console.ReadLine();
-
-                var events = new List<string>();
-
-                events.Add(eventsName);
-                events.Add(Eventdate);
-                events.Add(Eventday);
-                events.Add(Eventtime);
-
-                Console.WriteLine("Event Created Successfully!");
-
-                Console.WriteLine("Would you like to View the Created Event? (Y/N):");
-                viewEvent = Console.ReadLine();
-                if (viewEvent == "Y")
-                {
-                    foreach (var ev in events)
-                    {
-                        Console.WriteLine(ev);
-                    }
-                }
-                else if (viewEvent == "N")
-                {
-                    Console.WriteLine("Thank you for using Calendar Management System!");
-                }
-
-                Console.WriteLine("Would you like to continue? (Y/N):");
-                continueEvent1 = Console.ReadLine();
-                if (continueEvent1 == "Y")
-                {
-                    Console.WriteLine("Would you like to Create another Event? (Y/N): ");
-                    continueEvent2 = Console.ReadLine();
-                    if (continueEvent2 == "Y")
-                    {
-                        Console.Write("Enter the Name or Title of the Event: ");
-                        eventsName = Console.ReadLine();
-                        Console.Write("Enter Date (February 10, 2026): ");
-                        Eventdate = Console.ReadLine();
-                        Console.Write("Enter Day (Tuesday): ");
-                        Eventday = Console.ReadLine();
-                        Console.Write("Enter Time (9:00PM): ");
-                        Eventtime = Console.ReadLine();
-
-                        events.Add(eventsName);
-                        events.Add(Eventdate);
-                        events.Add(Eventday);
-                        events.Add(Eventtime);
-                    }
-                    else
-                    {
-                        Console.WriteLine("Thank you for using Calendar Management System!");
-                    }
-                }
 
             }
         }
     }
-}
+
