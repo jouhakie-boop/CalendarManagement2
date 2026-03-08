@@ -100,6 +100,17 @@ namespace CalendarManagement
                 }
             }
 
+        static void UpdateReminder()
+        {
+            Console.Write("Would you like to update a reminder? (yes/no)");
+            string updateChoice = Console.ReadLine();
+            string choice = updateChoice.ToLower();
+
+            if (choice == "yes")
+            {
+
+            }
+        }
 
             static void Main(string[] args)
             {
