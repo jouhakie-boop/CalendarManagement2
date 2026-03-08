@@ -22,28 +22,26 @@ namespace CalendarManagement
             Console.WriteLine("2. Create Event");
             Console.WriteLine("3. View Reminders");
             Console.WriteLine("4. View Events");
-            Console.WriteLine("5. Exit");
+            Console.WriteLine("5. Update Reminder");
+            Console.WriteLine("6. Update Event");
+            Console.WriteLine("7. Exit");
 
             Console.WriteLine("Please select an option:");
             int choice = int.Parse(Console.ReadLine());
 
-            if (choice == 1)
-            {
-                CreateReminder();
-            }
-            else if (choice == 2)
-            {
-                CreateEvent();
-            }
-            else if (choice == 3)
-            {
-                ViewReminders();
-            }
-            else if (choice == 4)
-            {
-                ViewEvents();
-            }
-            else if (choice == 5)
+            if (choice == 1)      {  CreateReminder();    }
+
+            else if (choice == 2) { CreateEvent();        }
+          
+            else if (choice == 3) { ViewReminders();      }
+           
+            else if (choice == 4) { ViewEvents();         }
+
+            else if (choice == 5) { UpdateReminder();     }
+           
+            else if (choice == 6) { UpdateEvent();        }
+          
+            else if (choice == 7)
             {
                 Console.WriteLine("Exiting the Calendar Management System. Goodbye!");
             }
@@ -67,6 +65,8 @@ namespace CalendarManagement
             //   reminders.AddRange(new List<string> { RemindersName, Reminderdate, Reminderday, Remindertime });
             reminders[RemindersName] = new List<string> { Reminderdate, Reminderday, Remindertime };
             Console.WriteLine("Reminder Created Successfully!");
+
+            DisplayMenu();
         }
 
         static void CreateEvent()
@@ -83,6 +83,8 @@ namespace CalendarManagement
             //   events.AddRange(new List<string> { eventsName, Eventdate, Eventday, Eventtime });
             events[eventsName] = new List<string> { Eventdate, Eventday, Eventtime };
             Console.WriteLine("Event Created Successfully!");
+
+            DisplayMenu();
         }
 
         static void ViewReminders()
@@ -102,6 +104,7 @@ namespace CalendarManagement
             {
                 Console.WriteLine("Reminder not found.");
             }
+            DisplayMenu();
         }
 
         static void ViewEvents()
@@ -122,6 +125,8 @@ namespace CalendarManagement
             {
                 Console.WriteLine("Reminder not found");
             }
+            DisplayMenu();
+        }
 
             static void UpdateReminder()
             {
@@ -145,7 +150,8 @@ namespace CalendarManagement
                     Console.WriteLine("Invalid Input");
                     //  Console.WriteLine("Would you like to try again?");
                 }
-            }
+            DisplayMenu();
+        }
 
             static void UpdateEvent()
             {
@@ -163,9 +169,23 @@ namespace CalendarManagement
                 else
                 {
                     Console.WriteLine("Invalid Input");
-                    //  Console.WriteLine("Would you like to try again?");
                 }
+                DisplayMenu();
             }
+
+            /*  FIX CONFLICTS IN CALENDAR MANAGEMENT
+             Identify: Actively scan for overlapping, color-coded, or alerted events.
+             
+              Assess: Determine which event has higher stakes or impact.
+
+              Communicate: Inform all parties immediately, taking responsibility for the error.
+
+              Reschedule: Offer alternative dates rather than just canceling.
+
+              Audit: Regularly review your calendar to prevent future issues.   
+             */
+
+
 
             static void Main(string[] args)
             {
@@ -181,7 +201,7 @@ namespace CalendarManagement
             }
         }
     }
-}
+
 
    
 
