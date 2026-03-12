@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+﻿
 using CalendarManagementDataService;
 using CalendarManagementModels;
 
@@ -11,7 +11,7 @@ namespace CalendarManagementAppService
 
         public void CreateReminder(string name, string date, string day, string time)
         {
-            var reminder = new Reminder { Name = name, Date = date, Day = day, Time = time };1
+            var reminder = new Reminder { Name = name, Date = date, Day = day, Time = time };
             repo.AddReminder(reminder);
         }
 
