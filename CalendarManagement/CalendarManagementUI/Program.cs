@@ -1,4 +1,5 @@
 ﻿using CalendarManagementAppService;
+using CalendarManagementModels;
 
 namespace CalendarManagementUI
 {
@@ -9,13 +10,9 @@ namespace CalendarManagementUI
             DateTime now = DateTime.Now;
             Console.WriteLine("Current Date and Time: " + now.ToString("MMMM dd yyyy, HH:mm:ss"));
 
-            //  DisplayMenu();
+              DisplayMenu();
 
             var manager = new CalendarAppService();
-            //  manager.CreateReminder("Meeting", "Feb 10, 2026", "Tuesday", "9 AM");
-            //  var reminder = manager.ViewReminder("Meeting");
-            //  Console.WriteLine($"Reminder: {reminder.Name} on {reminder.Date} at {reminder.Time}");
-
 
         }
         static void DisplayMenu()
@@ -33,28 +30,34 @@ namespace CalendarManagementUI
             Console.WriteLine("7. Exit");
 
             Console.WriteLine("Enter your choice:");
-            string choice = Console.ReadLine();
+            int choice = int.Parse(Console.ReadLine());
             switch (choice)
             {
-                case "1":
+                case 1:
                     CreateReminder();
                     break;
-                case "2":
+                case 2:
                     CreateEvent();
                     break;
-                case "3":
+                case 3:
                     ViewReminder();
                     break;
-                case "4":
+                case 4:
                     ViewEvent();
                     break;
-                case "5":
+                case 5:
+                    UpdateReminder();
+                    break;
+                case 6:
+                    UpdateEvent();
+                    break;
+                case 7:
                     DeleteReminder();
                     break;
-                case "6":
+                case 8:
                     DeleteEvent();
                     break;
-                case "7":
+                case 9:
                     Environment.Exit(0);
                     break;
                 default:
@@ -62,6 +65,17 @@ namespace CalendarManagementUI
                     break;
             }
         }
+
+        private static void UpdateReminder()
+        {
+            throw new NotImplementedException();
+        }
+
+        private static void UpdateEvent()
+        {
+            throw new NotImplementedException();
+        }
+
         static void CreateReminder()
         {
             Console.WriteLine("Enter Reminder Name:");
@@ -129,6 +143,35 @@ namespace CalendarManagementUI
             manager.DeleteEvent(name);
             Console.WriteLine("Event deleted successfully!");
         }
+        static void UpgradeReminder(Reminder reminder)
+        {
+            Console.WriteLine("Enter Reminder Name to Upgrade:");
+            string name = Console.ReadLine();
+            var manager = new CalendarAppService();
+            Console.WriteLine("Enter new Date (e.g., Feb 10, 2026):");
+          string  date = Console.ReadLine();
+            Console.WriteLine("Enter new Day (e.g., Tuesday):");
+            string day = Console.ReadLine();
+            Console.WriteLine("Enter new Time (e.g., 9 AM):");
+            string time = Console.ReadLine();
+
+             manager = new CalendarAppService();
+            manager.UpdateReminder(name, date, day, time);
+        }
+        static void UpgradeEvent(Event ev)
+        {
+            Console.WriteLine("Enter Event Name to Upgrade:");
+            string name = Console.ReadLine();
+            var manager = new CalendarAppService();
+            Console.WriteLine("Enter new Date (e.g., Feb 10, 2026):");
+            string date = Console.ReadLine();
+            Console.WriteLine("Enter new Day (e.g., Tuesday):");
+            string day = Console.ReadLine();
+            Console.WriteLine("Enter new Time (e.g., 9 AM):");
+            string time = Console.ReadLine();
+             manager = new CalendarAppService();
+            manager.UpdateEvent(name, date, day, time);
+        }
 
         }
-}
+    }

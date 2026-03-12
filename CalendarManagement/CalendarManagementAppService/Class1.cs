@@ -1,5 +1,4 @@
-﻿
-using CalendarManagementDataService;
+﻿using CalendarManagementDataService;
 using CalendarManagementModels;
 
 
@@ -14,7 +13,11 @@ namespace CalendarManagementAppService
             var reminder = new Reminder { Name = name, Date = date, Day = day, Time = time };
             repo.AddReminder(reminder);
         }
-
+        public void UpdateReminder(string name, string date, string day, string time)
+        {
+            var reminder = new Reminder { Name = name, Date = date, Day = day, Time = time };
+            repo.UpdateReminder(reminder);
+        }
         public Reminder ViewReminder(string name) => repo.GetReminder(name);
 
         public void DeleteReminder(string name) => repo.DeleteReminder(name);
@@ -27,6 +30,12 @@ namespace CalendarManagementAppService
         }
 
         public Event ViewEvent(string name) => repo.GetEvent(name);
+
+        public void UpdateEvent(string name, string date, string day, string time)
+        {
+            var ev = new Event { Name = name, Date = date, Day = day, Time = time };
+            repo.UpdateEvent(name, ev);
+        }
 
         public void DeleteEvent(string name) => repo.DeleteEvent(name);
 

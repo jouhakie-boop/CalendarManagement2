@@ -14,6 +14,19 @@ namespace CalendarManagementDataService
 
         public void AddEvent(Event ev) => events[ev.Name] = ev;
         public Event GetEvent(string name) => events.ContainsKey(name) ? events[name] : null;
+
+        public void UpdateEvent(string name, Event updatedEvent)
+        {
+            if (events.ContainsKey(name))
+            {
+                events[name] = updatedEvent;
+            }
+        }
         public void DeleteEvent(string name) => events.Remove(name);
+
+        public void UpdateReminder(Reminder reminder)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
