@@ -108,12 +108,10 @@ namespace CalendarManagement
                {           
                     foreach (var detail in events[reminderToView])
                     {
-                        Console.WriteLine();
-                        string reminderNameUpper = reminderToView.ToUpper();
-                        Console.WriteLine(reminderToView);
+                 
+                     
                         string reminderUpper = detail.ToUpper();
                         Console.WriteLine(detail);
-                        Console.WriteLine();
                     }
 
                 }
@@ -134,12 +132,10 @@ namespace CalendarManagement
             {
                 foreach (var detail in events[eventToView])
                 {
-                    Console.WriteLine();
-                    string eventNameUpper = eventToView.ToUpper();
-                    Console.WriteLine(eventToView);                  
+                    
+                                    
                     string eventUpper = detail.ToUpper();
-                    Console.WriteLine(detail);
-                    Console.WriteLine();
+                    Console.WriteLine(detail);             
                 }
                
             }
@@ -153,7 +149,7 @@ namespace CalendarManagement
             Console.WriteLine();
         }
 
-            static void UpdateReminder()
+        static void UpdateReminder()
             {
                 Console.Write("Would you like to update a reminder? (yes/no)");
                 string updateChoice = Console.ReadLine();
@@ -177,7 +173,7 @@ namespace CalendarManagement
             Console.WriteLine();
         }
 
-            static void UpdateEvent()
+        static void UpdateEvent()
             {
                 Console.Write("Would you like to update a reminder? (yes/no)");
                 string updateChoice = Console.ReadLine();
@@ -293,7 +289,7 @@ namespace CalendarManagement
                 //Create Repeat Update Delete
 
                 DateTime now = DateTime.Now;
-                Console.WriteLine("Current Date and Time: " + now.ToString("MMMM dd/n yyyy, HH:mm:ss"));
+                Console.WriteLine("Current Date and Time: " + now.ToString("MMMM dd yyyy, HH:mm:ss"));
 
                 DisplayMenu();
 
