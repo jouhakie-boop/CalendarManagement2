@@ -1,7 +1,19 @@
 ﻿namespace CalendarManagementModels
 {
-    public class Class1
+    public class Reminder
     {
+        public string Name { get; set;  }
+        public string Date { get; set; }
+        public string Day { get; set; }
+        public string Time { get; set; }
+    }
 
+    public class Event
+    {
+        public string Name { get; set; }
+        public string Date { get; set; }
+        public string Day { get; set; }
+        public string Time { get; set; }
     }
 }
+

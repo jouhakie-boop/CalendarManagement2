@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="CalendarManagementAppService/CalendarManagementAppService.csproj" />
+  <Project Path="CalendarManagementModels/CalendarManagementModels.csproj" />
+  <Project Path="CalendarManagementUI/CalendarManagementUI.csproj" Id="3eb5f9dd-e87d-4dcc-9806-3c8e7aac5fd2" />
+  <Project Path="CalendarManagmentDataService/CalendarManagmentDataService.csproj" />
+</Solution>

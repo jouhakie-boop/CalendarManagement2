@@ -8,7 +8,7 @@ namespace CalendarManagement
     internal class Program
 
     {
-         static Dictionary<string, List<string>> reminders = new Dictionary<string, List<string>>();
+        static Dictionary<string, List<string>> reminders = new Dictionary<string, List<string>>();
         static Dictionary<string, List<string>> events = new Dictionary<string, List<string>>();
 
         static void DisplayMenu()
@@ -32,8 +32,10 @@ namespace CalendarManagement
             Console.Write("Please select an option: ");
             int choice = int.Parse(Console.ReadLine());
 
-            if (choice == 1) { CreateReminder();
-    }
+            if (choice == 1)
+            {
+                CreateReminder();
+            }
 
             else if (choice == 2) { CreateEvent(); }
 
@@ -54,9 +56,9 @@ namespace CalendarManagement
                 Console.WriteLine("Exiting the Calendar Management System. Goodbye!");
             }
             else
-{
-    Console.WriteLine("Invalid choice. Please select a valid option.");
-}
+            {
+                Console.WriteLine("Invalid choice. Please select a valid option.");
+            }
         }
         static void CreateReminder()
         {
@@ -71,7 +73,7 @@ namespace CalendarManagement
 
             //   reminders.AddRange(new List<string> { RemindersName, Reminderdate, Reminderday, Remindertime });
             reminders[RemindersName] = new List<string> { Reminderdate, Reminderday, Remindertime };
-            
+
             Console.WriteLine("Reminder Created Successfully!");
 
             Console.WriteLine();
@@ -104,17 +106,17 @@ namespace CalendarManagement
             Console.Write("Enter Reminder Name to view: ");
             string reminderToView = Console.ReadLine();
 
-           if (reminders.ContainsKey(reminderToView))
-               {           
-                    foreach (var detail in events[reminderToView])
-                    {
-                 
-                     
-                        string reminderUpper = detail.ToUpper();
-                        Console.WriteLine(detail);
-                    }
+            if (reminders.ContainsKey(reminderToView))
+            {
+                foreach (var detail in events[reminderToView])
+                {
 
+
+                    string reminderUpper = detail.ToUpper();
+                    Console.WriteLine(detail);
                 }
+
+            }
             else
             {
                 Console.WriteLine("Reminder not found.");
@@ -132,12 +134,12 @@ namespace CalendarManagement
             {
                 foreach (var detail in events[eventToView])
                 {
-                    
-                                    
+
+
                     string eventUpper = detail.ToUpper();
-                    Console.WriteLine(detail);             
+                    Console.WriteLine(detail);
                 }
-               
+
             }
             else
             {
@@ -150,42 +152,42 @@ namespace CalendarManagement
         }
 
         static void UpdateReminder()
+        {
+            Console.Write("Would you like to update a reminder? (yes/no)");
+            string updateChoice = Console.ReadLine();
+            string choice = updateChoice.ToLower();
+
+            if (choice == "yes")
             {
-                Console.Write("Would you like to update a reminder? (yes/no)");
-                string updateChoice = Console.ReadLine();
-                string choice = updateChoice.ToLower();
 
-                if (choice == "yes")
-                {
-         
 
-                }
-                else if (choice == "no")
-                {
-                }
-                else
-                {
-                    Console.WriteLine("Invalid Input");
-                    //  Console.WriteLine("Would you like to try again?");
-                }
+            }
+            else if (choice == "no")
+            {
+            }
+            else
+            {
+                Console.WriteLine("Invalid Input");
+                //  Console.WriteLine("Would you like to try again?");
+            }
             Console.WriteLine();
             DisplayMenu();
             Console.WriteLine();
         }
 
         static void UpdateEvent()
-            {
-                Console.Write("Would you like to update a reminder? (yes/no)");
-                string updateChoice = Console.ReadLine();
-                string choice = updateChoice.ToLower();
+        {
+            Console.Write("Would you like to update a reminder? (yes/no)");
+            string updateChoice = Console.ReadLine();
+            string choice = updateChoice.ToLower();
 
-                if (choice == "yes")
-                {
+            if (choice == "yes")
+            {
                 Console.WriteLine("Enter the name of the Reminder you want to update: ");
                 string reminderUpdateChoice = Console.ReadLine();
                 Console.WriteLine();
-                    if (reminders.ContainsKey(reminderUpdateChoice))
-                    {
+                if (reminders.ContainsKey(reminderUpdateChoice))
+                {
                     foreach (var detail in reminders[reminderUpdateChoice])
                     {
                         Console.WriteLine();
@@ -197,37 +199,37 @@ namespace CalendarManagement
                     }
 
                     Console.WriteLine();
-                        Console.Write("Enter the new Date (February 10, 2026): ");
-                        string newReminderDate = Console.ReadLine();
-                        Console.Write("Enter the new Day (Tuesday): ");
-                        string newReminderDay = Console.ReadLine();
-                        Console.Write("Enter the new Time (9 PM/9 AM): ");
-                        string newReminderTime = Console.ReadLine();
-    
-                        reminders[reminderUpdateChoice] = new List<string> { newReminderDate, newReminderDay, newReminderTime };
-                        Console.WriteLine("Reminder '" + reminderUpdateChoice + "' updated successfully.");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Name " + reminderUpdateChoice + " Reminder not found.");
+                    Console.Write("Enter the new Date (February 10, 2026): ");
+                    string newReminderDate = Console.ReadLine();
+                    Console.Write("Enter the new Day (Tuesday): ");
+                    string newReminderDay = Console.ReadLine();
+                    Console.Write("Enter the new Time (9 PM/9 AM): ");
+                    string newReminderTime = Console.ReadLine();
+
+                    reminders[reminderUpdateChoice] = new List<string> { newReminderDate, newReminderDay, newReminderTime };
+                    Console.WriteLine("Reminder '" + reminderUpdateChoice + "' updated successfully.");
+                }
+                else
+                {
+                    Console.WriteLine("Name " + reminderUpdateChoice + " Reminder not found.");
                 }
             }
-                else if (choice == "no")
-                {
+            else if (choice == "no")
+            {
                 Console.WriteLine("No updates made to the reminder.");
                 Console.WriteLine();
                 DisplayMenu();
                 Console.WriteLine();
-                }
-                else
-                {
-                    Console.WriteLine("Invalid Input");
+            }
+            else
+            {
+                Console.WriteLine("Invalid Input");
                 Console.WriteLine();
                 DisplayMenu();
                 Console.WriteLine();
             }
-               
-            }
+
+        }
 
 
         static void DeleteReminder()
@@ -238,7 +240,7 @@ namespace CalendarManagement
             if (reminders.ContainsKey(reminderDeleteChoice))
             {
                 reminders.Remove(reminderDeleteChoice);
-                Console.WriteLine("Reminder '" + reminderDeleteChoice + "' deleted.");               
+                Console.WriteLine("Reminder '" + reminderDeleteChoice + "' deleted.");
             }
             else
             {
@@ -284,16 +286,22 @@ namespace CalendarManagement
          */
 
         static void Main(string[] args)
-            {
+        {
 
-                //Create Repeat Update Delete
+            //Create Repeat Update Delete
 
-                DateTime now = DateTime.Now;
-                Console.WriteLine("Current Date and Time: " + now.ToString("MMMM dd yyyy, HH:mm:ss"));
+            DateTime now = DateTime.Now;
+            Console.WriteLine("Current Date and Time: " + now.ToString("MMMM dd yyyy, HH:mm:ss"));
 
-                DisplayMenu();
+          //  DisplayMenu();
+
+            var manager = new CalendarAppService();
+            manager.CreateReminder("Meeting", "Feb 10, 2026", "Tuesday", "9 AM");
+            var reminder = manager.ViewReminder("Meeting");
+            Console.WriteLine($"Reminder: {reminder.Name} on {reminder.Date} at {reminder.Time}");
 
 
-            }
         }
+
+    }
     }
