@@ -29,7 +29,7 @@ namespace CalendarManagementUI
             Console.WriteLine("6. Delete Event");
             Console.WriteLine("7. Exit");
 
-            Console.WriteLine("Enter your choice:");
+            Console.Write("Enter your choice:");
             int choice = int.Parse(Console.ReadLine());
             switch (choice)
             {
