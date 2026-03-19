@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="CalendarManagementAppService">
+      <HintPath>bin\Debug\net8.0-windows\CalendarManagementAppService.dll</HintPath>
+    </Reference>
+    <Reference Include="CalendarManagementModels">
+      <HintPath>bin\Debug\net8.0-windows\CalendarManagementModels.dll</HintPath>
+    </Reference>
+    <Reference Include="CalendarManagmentDataService">
+      <HintPath>bin\Debug\net8.0-windows\CalendarManagmentDataService.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

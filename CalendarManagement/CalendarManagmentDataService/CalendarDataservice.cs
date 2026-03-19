@@ -3,13 +3,22 @@ using CalendarManagementModels;
 
 namespace CalendarManagmentDataService
 {
-    public class CalendarDataService
+    public class CalendarDataService 
     {
-        private Dictionary<string, Reminder> reminders = new();
-        private Dictionary<string, Event> events = new();
+        ICalendarDataService _CalendarDataService;
+        public CalendarDataService(ICalendarDataService calendarDataService)
+        {
+            _CalendarDataService = calendarDataService;
+        }
 
-        public void AddReminder(Reminder reminder) => reminders[reminder.Name] = reminder;
+
+        public void AddReminder(Reminder reminder)
+        {
+            _
+           // reminders[reminder.Name] = reminder;
+        }
         public Reminder GetReminder(string name) => reminders.ContainsKey(name) ? reminders[name] : null;
+
         public void DeleteReminder(string name) => reminders.Remove(name);
 
         public void AddEvent(Event ev) => events[ev.Name] = ev;
@@ -29,5 +38,9 @@ namespace CalendarManagmentDataService
                 events[name] = updatedEvent;
             }
         }
+
+        // New helpers to support conflict detection and UI listing
+        public List<Event> GetAllEvents() => new List<Event>(events.Values);
+        public List<Reminder> GetAllReminders() => new List<Reminder>(reminders.Values);
     }
 }
