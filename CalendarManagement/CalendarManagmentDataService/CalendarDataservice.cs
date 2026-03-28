@@ -1,46 +1,56 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Reflection.Metadata.Ecma335;
 using CalendarManagementModels;
 
 namespace CalendarManagmentDataService
 {
-    public class CalendarDataService 
+    public class CalendarDataService
     {
-        ICalendarDataService _CalendarDataService;
+        ICalendarDataService _dataService;
+        private Dictionary<string, Event> events = new Dictionary<string, Event>();
+        private Dictionary<string, Reminder> reminders = new Dictionary<string, Reminder>();
+
         public CalendarDataService(ICalendarDataService calendarDataService)
         {
-            _CalendarDataService = calendarDataService;
+
+            _dataService = calendarDataService;
         }
 
 
         public void AddReminder(Reminder reminder)
         {
-            _
-           // reminders[reminder.Name] = reminder;
+            _dataService.Add(reminder);
         }
-        public Reminder GetReminder(string name) => reminders.ContainsKey(name) ? reminders[name] : null;
-
-        public void DeleteReminder(string name) => reminders.Remove(name);
-
-        public void AddEvent(Event ev) => events[ev.Name] = ev;
-        public Event GetEvent(string name) => events.ContainsKey(name) ? events[name] : null;
-        public void DeleteEvent(string name) => events.Remove(name);
-        public void UpdateReminder(string name, Reminder updatedReminder)
+        public Reminder? GetReminderById(Guid id)
         {
-            if (reminders.ContainsKey(name))
-            {
-                reminders[name] = updatedReminder;
-            }
+            return _dataService.GetReminderById(id);
         }
-        public void UpdateEvent(string name, Event updatedEvent)
+        public Reminder GetReminder(string name)
         {
-            if (events.ContainsKey(name))
-            {
-                events[name] = updatedEvent;
-            }
+            return _dataService.GetReminderByName(name);
+        }
+        public bool ReminderExists(string name)
+        {
+            return _dataService.ReminderExists(name);
         }
 
-        // New helpers to support conflict detection and UI listing
-        public List<Event> GetAllEvents() => new List<Event>(events.Values);
-        public List<Reminder> GetAllReminders() => new List<Reminder>(reminders.Values);
+        public void DeleteReminder(string name) => _dataService.Remove(name);
+
+
+
+        public void AddEvent(Event ev) => _dataService.Add(ev);
+        public Event? GetEventById(Guid id) => _dataService.GetEventById(id);
+        public Event GetEvent(string name) => _dataService.GetEventByName(name);
+        public bool EventExists(string name) => _dataService.EventExists(name);
+        public void DeleteEvent(string name) => _dataService.Remove(name);
+        public void UpdateReminder(string name, Reminder reminder) => _dataService.UpdateReminder(reminder);
+
+        public void UpdateEvent(string name, Event updatedEvent) => _dataService.UpdateEvent(updatedEvent);
+
+
     }
 }

@@ -1,18 +1,25 @@
 ﻿using CalendarManagementModels;
 
+
 namespace CalendarManagmentDataService
 {
     public interface ICalendarDataService
     {
-        void AddEvent(Event ev);
-        void AddReminder(Reminder reminder);
-        void DeleteEvent(string name);
-        void DeleteReminder(string name);
-        List<Event> GetAllEvents();
-        List<Reminder> GetAllReminders();
-        Event GetEvent(string name);
-        Reminder GetReminder(string name);
-        void UpdateEvent(string name, Event updatedEvent);
-        void UpdateReminder(string name, Reminder updatedReminder);
+        void Add(Reminder reminder);
+        Reminder? GetReminder();
+        Reminder? GetReminderByName(string name);
+        void UpdateReminder(Reminder reminder);
+        void DeleteReminder(Reminder reminder);
+        Reminder? GetReminderById(Guid id);
+        bool ReminderExists(string name);
+
+        void Add(Event ev);
+        Event? GetEvent(string name);
+        Event? GetEventByName(string name);
+        void UpdateEvent(Event ev); 
+        void DeleteEvents(Event ev);
+        void Remove(string name);
+        Event? GetEventById(Guid id);
+        bool EventExists(string name);
     }
 }

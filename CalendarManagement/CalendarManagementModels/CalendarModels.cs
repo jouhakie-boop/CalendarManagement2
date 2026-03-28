@@ -4,30 +4,23 @@ namespace CalendarManagementModels
 {
     public class Reminder
     {
+      //  public int Count { get; set; }
+        public Guid ReminderId { get; set; }    
         public string Name { get; set;  }
         public string Date { get; set; }
         public string Day { get; set; }
         public string Time { get; set; }
-
-        public DateTime? Start { get; set; }
-        public TimeSpan? Duration { get; set; }
-        public int Priority { get; set; } = 0; 
-
-        public DateTime? End => Start.HasValue && Duration.HasValue ? Start + Duration : null;
+        public bool Count { get; set; }
     }
 
     public class Event
     {
+        public Guid EventId { get; set; }
         public string Name { get; set; }
         public string Date { get; set; }
         public string Day { get; set; }
         public string Time { get; set; }
-
-        public DateTime? Start { get; set; }
-        public TimeSpan? Duration { get; set; }
-        public int Priority { get; set; } = 0; 
-
-        public DateTime? End => Start.HasValue && Duration.HasValue ? Start + Duration : null;
+        public int Count { get; set; }
     }
 }
 
