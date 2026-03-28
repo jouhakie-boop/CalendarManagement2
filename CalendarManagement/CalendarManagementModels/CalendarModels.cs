@@ -4,7 +4,7 @@ namespace CalendarManagementModels
 {
     public class Reminder
     {
-      //  public int Count { get; set; }
+        public int Counts { get; set; }
         public Guid ReminderId { get; set; }    
         public string Name { get; set;  }
         public string Date { get; set; }
@@ -20,7 +20,8 @@ namespace CalendarManagementModels
         public string Date { get; set; }
         public string Day { get; set; }
         public string Time { get; set; }
-        public int Count { get; set; }
+        public bool Count { get; set; }
+        public int Counts { get; set; }
     }
 }
 

@@ -43,7 +43,7 @@ namespace CalendarManagmentDataService
 
 
 
-        public void Add(Event ev) => _dataService.Add(ev);
+        public void Add(string name, Event ev) => _dataService.Add(ev);
         public Event? GetEventById(Guid id) => _dataService.GetEventById(id);
         public Event GetEvent(string name) => _dataService.GetEventByName(name);
         public bool EventExists(string name) => _dataService.EventExists(name);
