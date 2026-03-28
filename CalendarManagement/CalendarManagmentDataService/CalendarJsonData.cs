@@ -20,7 +20,7 @@ namespace CalendarManagmentDataService
 
         public CalendarJsonData()
         {
-            _jsonFileName = $"{AppDomain.CurrentDomain.BaseDirectory}//ReminderList.json,EventList.json"; 
+            _jsonFileName = $"{AppDomain.CurrentDomain.BaseDirectory}/Calendar.json"; 
             
              PopulateJsonFile();
         }
@@ -67,13 +67,11 @@ namespace CalendarManagmentDataService
                 PropertyNameCaseInsensitive = true
             };
 
-            // Load reminders
             using (var jsonFileReader = File.OpenRead(this._jsonFileName))
             {
                 this.reminders = JsonSerializer.Deserialize<Dictionary<string, Reminder>>(jsonFileReader, options);
             }
 
-            // Load events
             using (var jsonFileReader = File.OpenRead(this._jsonFileName))
             {
                 this.events = JsonSerializer.Deserialize<Dictionary<string, Event>>(jsonFileReader, options);
@@ -191,7 +189,9 @@ namespace CalendarManagmentDataService
 
         public Event? GetEvent(string name)
         {
-            throw new NotImplementedException();
+
+            RetrieveDataFromJsonFile();
+            return events.Values.FirstOrDefault();
         }
 
            public Event? GetEventById(Guid id)

@@ -7,6 +7,26 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="CalendarJsonData.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Calendar.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="CalendarJsonData.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AdditionalFiles>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Calendar.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.Data.SqlClient" Version="7.0.0" />
   </ItemGroup>
 

@@ -5,31 +5,44 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks.Sources;
 
-
-
-
 namespace CalendarManagementAppService
 {
     public class CalendarAppService
     {
         CalendarDataService calendarDataService = new CalendarDataService(new
-            CalendarDBData());
+            CalendarJsonData());
 
-        public void CreateReminder(string name, string date, string day, string time)
+        public bool CreateReminder(Reminder newReminder)
         {
-            var reminder = new Reminder { Name = name, Date = date, Day = day, Time = time };
-            calendarDataService.AddReminder(reminder);
+            if (calendarDataService.ReminderExists(newReminder.Name))
+            {
+                Console.WriteLine("A reminder with the same name already exists. Please choose a different name.");
+                return false;
+            }
+
+             calendarDataService.Add(newReminder);
+            return true;
 
         }
-        public Reminder ViewReminder(string name) => calendarDataService.GetReminder(name);
+        public Reminder ViewReminder(Guid ReminderId)
+        {
+            return calendarDataService.GetReminderById(ReminderId);
+          // return calendarDataService.GetReminder(name);
+        }
 
         public void DeleteReminder(string name) => calendarDataService.DeleteReminder(name);
 
 
-        public void CreateEvent(string name, string date, string day, string time)
+        public bool CreateEvent(Event newEvent)
         {
-            var ev = new Event { Name = name, Date = date, Day = day, Time = time };
-            calendarDataService.AddEvent(ev);
+            if (calendarDataService.EventExists(newEvent.Name))
+            {
+                Console.WriteLine("A event with the same name already exists. Please choose a different name.");
+                return false;
+            }
+           
+            calendarDataService.Add(newEvent);
+            return true;
         }
         public Event ViewEvent(string name) => calendarDataService.GetEvent(name);
 

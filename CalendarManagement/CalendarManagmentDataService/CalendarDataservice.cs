@@ -21,9 +21,10 @@ namespace CalendarManagmentDataService
         }
 
 
-        public void AddReminder(Reminder reminder)
+        public void Add(Reminder reminder)
         {
             _dataService.Add(reminder);
+          //  _dataService.Add(newReminder);
         }
         public Reminder? GetReminderById(Guid id)
         {
@@ -42,7 +43,7 @@ namespace CalendarManagmentDataService
 
 
 
-        public void AddEvent(Event ev) => _dataService.Add(ev);
+        public void Add(Event ev) => _dataService.Add(ev);
         public Event? GetEventById(Guid id) => _dataService.GetEventById(id);
         public Event GetEvent(string name) => _dataService.GetEventByName(name);
         public bool EventExists(string name) => _dataService.EventExists(name);

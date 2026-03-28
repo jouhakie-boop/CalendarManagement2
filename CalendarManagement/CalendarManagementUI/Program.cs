@@ -7,20 +7,13 @@ namespace CalendarManagementUI;
 
 internal class Program
 {
-    public static ICalendarDataService myDataService = new CalendarJsonData();
-    public void DataService(ICalendarDataService dataService)
-    {
-        myDataService = dataService;
-    }
+    CalendarAppService sppService = new CalendarAppService();
     static void Main(string[] args)
     {
         DateTime now = DateTime.Now;
         Console.WriteLine("Current Date and Time: " + now.ToString("MMMM dd yyyy, HH:mm:ss"));
 
         DisplayMenu();
-
-        ICalendarDataService myDataService = new CalendarInMemory();
-        var appService = new CalendarAppService(myDataService);
 
     }
     static void DisplayMenu()
@@ -94,7 +87,7 @@ internal class Program
         throw new NotImplementedException();
     }
 
-    static void CreateReminder()
+    static void CreateReminders()
     {
         Console.WriteLine("Enter Reminder Name:");
         string name = Console.ReadLine();
@@ -104,7 +97,8 @@ internal class Program
         string day = Console.ReadLine();
         Console.WriteLine("Enter Time (e.g., 9 AM):");
         string time = Console.ReadLine();
-        var appService = new CalendarAppService(myDataService); 
+
+        var appService = new CalendarAppService(); 
         appService.CreateReminder(name, date, day, time);
         Console.WriteLine("Reminder created successfully!");
 
@@ -122,7 +116,7 @@ internal class Program
         string day = Console.ReadLine();
         Console.WriteLine("Enter Time (e.g., 9 AM):");
         string time = Console.ReadLine();
-        var appService = new CalendarAppService(myDataService);
+        var appService = new CalendarAppService();
         appService.CreateEvent(name, date, day, time);
         Console.WriteLine("Event created successfully!");
 
@@ -134,7 +128,7 @@ internal class Program
     {
         Console.WriteLine("Enter Reminder Name to View:");
         string name = Console.ReadLine();
-        var appService = new CalendarAppService(myDataService);
+        var appService = new CalendarAppService();
         var reminder = appService.ViewReminder(name);
         if (reminder != null)
             Console.WriteLine($"Reminder: {reminder.Name} on {reminder.Date} at {reminder.Time}");
@@ -149,7 +143,7 @@ internal class Program
     {
         Console.WriteLine("Enter Event Name to View:");
         string name = Console.ReadLine();
-        var appService = new CalendarAppService(myDataService);
+        var appService = new CalendarAppService();
         var ev = appService.ViewEvent(name);
         if (ev != null)
             Console.WriteLine($"Event: {ev.Name} on {ev.Date} at {ev.Time}");
@@ -164,7 +158,7 @@ internal class Program
     {
         Console.WriteLine("Enter Reminder Name to Delete:");
         string name = Console.ReadLine();
-        var appService = new CalendarAppService(myDataService);
+        var appService = new CalendarAppService();
         appService.DeleteReminder(name);
         Console.WriteLine("Reminder deleted successfully!");
 
@@ -176,7 +170,7 @@ internal class Program
     {
         Console.WriteLine("Enter Event Name to Delete:");
         string name = Console.ReadLine();
-        var appService = new CalendarAppService(myDataService);
+        var appService = new CalendarAppService();
         appService.DeleteEvent(name);
         Console.WriteLine("Event deleted successfully!");
 
@@ -188,7 +182,7 @@ internal class Program
     {
         Console.WriteLine("Enter Reminder Name to Upgrade:");
         string name = Console.ReadLine();
-        var manager = new CalendarAppService(myDataService);
+        var manager = new CalendarAppService();
         Console.WriteLine("Enter new Date (e.g., Feb 10, 2026):");
         string date = Console.ReadLine();
         Console.WriteLine("Enter new Day (e.g., Tuesday):");
@@ -196,7 +190,7 @@ internal class Program
         Console.WriteLine("Enter new Time (e.g., 9 AM):");
         string time = Console.ReadLine();
 
-        var appService = new CalendarAppService(myDataService);
+        var appService = new CalendarAppService();
         appService.UpdateReminder(name, date, day, time);
 
         Console.WriteLine();
@@ -207,8 +201,7 @@ internal class Program
     {
         Console.WriteLine("Enter Event Name to Upgrade:");
         string name = Console.ReadLine();
-        ICalendarDataService myDataService = new CalendarInMemory();
-        var appService = new CalendarAppService(myDataService); ;
+        var appService = new CalendarAppService(); ;
         Console.WriteLine("Enter new Date (e.g., Feb 10, 2026):");
         string date = Console.ReadLine();
         Console.WriteLine("Enter new Day (e.g., Tuesday):");
