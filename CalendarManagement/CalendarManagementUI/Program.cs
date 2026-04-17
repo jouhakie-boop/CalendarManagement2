@@ -1,7 +1,9 @@
 ﻿using CalendarManagementAppService;
 using CalendarManagementModels;
 using CalendarManagmentDataService;
+using Microsoft.Data.SqlClient;
 using System.Dynamic;
+using System.Xml.Linq;
 
 namespace CalendarManagementUI;
 
@@ -13,9 +15,10 @@ internal class Program
         DateTime now = DateTime.Now;
         Console.WriteLine("Current Date and Time: " + now.ToString("MMMM dd yyyy, HH:mm:ss"));
 
-        DisplayMenu();
+          DisplayMenu();
 
     }
+  
     static void DisplayMenu()
     {
         Console.WriteLine("----------------------------------------");
@@ -51,7 +54,7 @@ internal class Program
                 CreateEvent();
                 break;
             case 3:
-                ViewReminder();
+               ViewReminder();
                 break;
             case 4:
                 ViewEvent();
@@ -77,17 +80,7 @@ internal class Program
         }
     }
 
-    private static void UpdateReminder()
-    {
-        throw new NotImplementedException();
-    }
-
-    private static void UpdateEvent()
-    {
-        throw new NotImplementedException();
-    }
-
-    static void CreateReminders()
+    static void CreateReminder()
     {
         Console.WriteLine("Enter Reminder Name:");
         string name = Console.ReadLine();
@@ -97,9 +90,15 @@ internal class Program
         string day = Console.ReadLine();
         Console.WriteLine("Enter Time (e.g., 9 AM):");
         string time = Console.ReadLine();
-
+        Reminder reminder = new Reminder
+        {
+            Name = name,
+            Date = date,
+            Day = day,
+            Time = time
+        };
         var appService = new CalendarAppService(); 
-        appService.CreateReminder(name, date, day, time);
+        appService.CreateReminder(reminder);
         Console.WriteLine("Reminder created successfully!");
 
         Console.WriteLine();
@@ -116,8 +115,15 @@ internal class Program
         string day = Console.ReadLine();
         Console.WriteLine("Enter Time (e.g., 9 AM):");
         string time = Console.ReadLine();
+        Event ev = new Event
+        {
+            Name = name,
+            Date = date,
+            Day = day,
+            Time = time
+        };
         var appService = new CalendarAppService();
-        appService.CreateEvent(name, date, day, time);
+        appService.CreateEvent(ev);
         Console.WriteLine("Event created successfully!");
 
         Console.WriteLine();
@@ -178,7 +184,7 @@ internal class Program
         DisplayMenu();
         Console.WriteLine();
     }
-    static void UpdateReminder(Reminder reminder)
+    static void UpdateReminder()
     {
         Console.WriteLine("Enter Reminder Name to Upgrade:");
         string name = Console.ReadLine();
@@ -197,7 +203,7 @@ internal class Program
         DisplayMenu();
         Console.WriteLine();
     }
-    static void UpdateEvent(Event ev)
+    static void UpdateEvent()
     {
         Console.WriteLine("Enter Event Name to Upgrade:");
         string name = Console.ReadLine();

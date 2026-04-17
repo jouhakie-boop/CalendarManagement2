@@ -7,22 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="CalendarJsonData.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Remove="Calendar.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <AdditionalFiles Include="CalendarJsonData.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </AdditionalFiles>
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Include="Calendar.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 
@@ -32,6 +22,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CalendarManagementModels\CalendarManagementModels.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="CalendarJsonData.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
   </ItemGroup>
 
 </Project>

@@ -24,7 +24,8 @@ namespace CalendarManagmentDataService
         public void Add(Reminder reminder)
         {
             _dataService.Add(reminder);
-          //  _dataService.Add(newReminder);
+
+           
         }
         public Reminder? GetReminderById(Guid id)
         {
@@ -38,19 +39,14 @@ namespace CalendarManagmentDataService
         {
             return _dataService.ReminderExists(name);
         }
-
-        public void DeleteReminder(string name) => _dataService.Remove(name);
-
-
-
-        public void Add(string name, Event ev) => _dataService.Add(ev);
+        public void DeleteReminder(string name) => _dataService.RemoveReminder(name);
+        public void Add(Event ev) => _dataService.Add(ev);
         public Event? GetEventById(Guid id) => _dataService.GetEventById(id);
         public Event GetEvent(string name) => _dataService.GetEventByName(name);
         public bool EventExists(string name) => _dataService.EventExists(name);
-        public void DeleteEvent(string name) => _dataService.Remove(name);
+        public void DeleteEvent(string name) => _dataService.RemoveEvent(name);
         public void UpdateReminder(string name, Reminder reminder) => _dataService.UpdateReminder(reminder);
-
-        public void UpdateEvent(string name, Event updatedEvent) => _dataService.UpdateEvent(updatedEvent);
+        public void UpdateEvent(string name, Event newEvent) => _dataService.UpdateEvent(newEvent);
 
 
     }

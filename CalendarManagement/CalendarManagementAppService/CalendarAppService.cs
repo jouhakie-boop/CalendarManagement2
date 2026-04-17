@@ -13,46 +13,26 @@ namespace CalendarManagementAppService
             CalendarDBData());
         public void CreateReminder(Reminder newReminder)
         {
-             calendarDataService.Add(newReminder);
+            Reminder reminder = new Reminder();
+            reminder = newReminder;
+            calendarDataService.Add(newReminder);
         }
         public void CreateEvent(Event newEvent)
         {
-
+            Event ev = new Event();
+            ev = newEvent;
             calendarDataService.Add(newEvent);
         }
 
-        //public bool CreateReminder(Reminder newReminder)
-        //{
-        //    if (calendarDataService.ReminderExists(newReminder.Name))
-        //    {
-        //        Console.WriteLine("A reminder with the same name already exists. Please choose a different name.");
-        //        return false;
-        //    }
-
-        //    calendarDataService.Add(newReminder);
-        //    return true;
-
-        //}
-        public Reminder ViewReminder(string name)
+        public Reminder ViewReminder(string reminder)
         {
           //  return calendarDataService.GetReminderById(ReminderId);
-           return calendarDataService.GetReminder(name);
+           return calendarDataService.GetReminder(reminder);
         }
 
         public void DeleteReminder(string name) => calendarDataService.DeleteReminder(name);
 
 
-        //public bool CreateEvent(Event newEvent)
-        //{
-        //    if (calendarDataService.EventExists(newEvent.Name))
-        //    {
-        //        Console.WriteLine("A event with the same name already exists. Please choose a different name.");
-        //        return false;
-        //    }
-           
-        //    calendarDataService.Add(newEvent);
-        //    return true;
-        //}
         public Event ViewEvent(string name) => calendarDataService.GetEvent(name);
 
         public void DeleteEvent(string name) => calendarDataService.DeleteEvent(name);

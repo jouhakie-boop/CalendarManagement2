@@ -67,14 +67,26 @@ namespace CalendarManagmentDataService
                 PropertyNameCaseInsensitive = true
             };
 
-            using (var jsonFileReader = File.OpenRead(this._jsonFileName))
+            string json = File.ReadAllText(this._jsonFileName);
+
+            if (string.IsNullOrWhiteSpace(json))
             {
-                this.reminders = JsonSerializer.Deserialize<Dictionary<string, Reminder>>(jsonFileReader, options);
+                Console.WriteLine("JSON file is empty, initializing with empty dictionaries.");
+                this.reminders = new Dictionary<string, Reminder>();
+                this.events = new Dictionary<string, Event>();
+                return;
             }
 
-            using (var jsonFileReader = File.OpenRead(this._jsonFileName))
+            using (var jsonFileReader = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(json)))
             {
-                this.events = JsonSerializer.Deserialize<Dictionary<string, Event>>(jsonFileReader, options);
+                this.reminders = JsonSerializer.Deserialize<Dictionary<string, Reminder>>(jsonFileReader, options)
+                                  ?? new Dictionary<string, Reminder>();
+            }
+
+            using (var jsonFileReader = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(json)))
+            {
+                this.events = JsonSerializer.Deserialize<Dictionary<string, Event>>(jsonFileReader, options)
+                               ?? new Dictionary<string, Event>();
             }
         }
 
@@ -201,6 +213,36 @@ namespace CalendarManagmentDataService
         }
 
         public void UpdateEvent(Event ev)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteReminder(string reminderName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveReminder(string reminderName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Event? GetEvent()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteEvents(string reminerName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveEvent(string eventName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Add(object newReminder)
         {
             throw new NotImplementedException();
         }

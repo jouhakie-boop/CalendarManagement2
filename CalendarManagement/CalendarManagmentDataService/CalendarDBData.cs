@@ -1,22 +1,14 @@
 ﻿using CalendarManagementModels;
 using Microsoft.Data.SqlClient;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Data;
 
 namespace CalendarManagmentDataService
 {
-    public class CalendarDBData  : ICalendarDataService
+    public class CalendarDBData : ICalendarDataService
     {
-        private string? connectionString 
-          =  "Data Source: localhost\\SQLEXPRESS; Initial Catalog = CalendarManagement; Integrated Security = True; TrustServerCertificate=True";
-    
+        private string? connectionString
+     =   "Data Source=localhost\\SQLEXPRESS;Initial Catalog=CalendarManagement;Integrated Security=True;TrustServerCertificate=True";
         private SqlConnection SqlConnection;
-
 
         public CalendarDBData()
         {
@@ -25,29 +17,46 @@ namespace CalendarManagmentDataService
             SqlConnection.Open();
         }
 
+        public bool TestConnection()
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    conn.Open();
+                    return true; // ✅ Connected
+                }
+                catch (Exception ex)
+                {
+                
+                    Console.WriteLine("❌ Connection failed: " + ex.Message);
+                    return false;
+                }
+            }
+        }
 
         private void AddSeeds()
         {
             var existingReminder = GetReminder();
 
 
-            
-            if (existingReminder.Count)
+
+            if (existingReminder.Counts == 0)
             {
                 Reminder TestReminder = new Reminder { Name = "Test Reminder", Date = "Oct 7, 2026", Day = "Wednesday", Time = "12 PM" };
                 Reminder TestRemider2 = new Reminder { Name = "Test Reminder 2", Date = "Oct 8, 2026", Day = "Thursday", Time = "1 PM" };
                 Reminder TestReminder3 = new Reminder { Name = "Test Reminder 3", Date = "Oct 9, 2026", Day = "Friday", Time = "2 PM" };
 
-                
+
                 Add(TestReminder);
                 Add(TestRemider2);
                 Add(TestReminder3);
-                
+
             }
 
             var existingEvents = GetEvent();
 
-            if(existingEvents.Count == 0)
+            if (existingEvents.Counts == 0)
             {
                 Event TestEvent = new Event { Name = "Test Event", Date = "Oct 10, 2026", Day = "Saturday", Time = "3 PM" };
                 Event TestEvent2 = new Event { Name = "Test Event 2", Date = "Oct 11, 2026", Day = "Sunday", Time = "4 PM" };
@@ -59,76 +68,97 @@ namespace CalendarManagmentDataService
             }
         }
 
-
-
-
         public void Add(Reminder reminder)
         {
-            var insertStatement = "INSERT INTO Reminder VALUES (@ReminderID, @Name, @Date, @Day, @Time)";
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                if (conn.State == ConnectionState.Closed)
+                {
+                    conn.Open();
 
-            SqlCommand insertCommand = new SqlCommand(insertStatement, SqlConnection);
+                    // run your command here
+                    // conn is closed/disposed automatically here
+                    var insertStatement = "INSERT INTO Reminder VALUES (@ReminderID, @Name, @Date, @Day, @Time)";
 
-            insertCommand.Parameters.AddWithValue("@ReminderID", reminder.ReminderId);
-            insertCommand.Parameters.AddWithValue("@Name", reminder.Name);
-            insertCommand.Parameters.AddWithValue("@Date", reminder.Date);
-            insertCommand.Parameters.AddWithValue("@Day", reminder.Day);
-            insertCommand.Parameters.AddWithValue("@Time", reminder.Time);
-            SqlConnection.Open();
+                    SqlCommand insertCommand = new SqlCommand(insertStatement, conn);
 
-            insertCommand.ExecuteNonQuery();
+                    insertCommand.Parameters.AddWithValue("@ReminderID", reminder.ReminderId);
+                    insertCommand.Parameters.AddWithValue("@Name", reminder.Name);
+                    insertCommand.Parameters.AddWithValue("@Date", reminder.Date);
+                    insertCommand.Parameters.AddWithValue("@Day", reminder.Day);
+                    insertCommand.Parameters.AddWithValue("@Time", reminder.Time);
 
-            SqlConnection.Close();
+                    insertCommand.ExecuteNonQuery();
+
+                }
+            }
         }
 
         public void Add(Event ev)
         {
-            var insertStatement = "INSERT INTO Event VALUES (@ReminderID, @Name, @Date, @Day, @Time)";
-
-            SqlCommand insertCommand = new SqlCommand(insertStatement, SqlConnection);
-
-            insertCommand.Parameters.AddWithValue("@EventID", ev.EventId);
-            insertCommand.Parameters.AddWithValue("@Name", ev.Name);
-            insertCommand.Parameters.AddWithValue("@Date", ev.Date);
-            insertCommand.Parameters.AddWithValue("@Day", ev.Day);
-            insertCommand.Parameters.AddWithValue("@Time", ev.Time);
-            SqlConnection.Open();
-
-            insertCommand.ExecuteNonQuery();
-
-            SqlConnection.Close();
-        }
-
-        public Event? GetEvent()
-        {
-            string selecStatement = "SELECT EventID, Name, Date, Day, Time FROM Event";
-
-            SqlCommand selectCommand = new SqlCommand(selecStatement, SqlConnection);
-
-            SqlConnection.Open();
-
-            SqlDataReader reader = selectCommand.ExecuteReader();
-
-            var events = new Event();
-
-            while (reader.Read())
+            using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                events.EventId = Guid.Parse(reader["EventID"].ToString());
-                events.Name = reader["Name"].ToString();
-                events.Date = reader["Date"].ToString();
-                events.Day = reader["Day"].ToString();
-                events.Time = reader["Time"].ToString();
+                if (conn.State == ConnectionState.Closed)
+                {
+                    conn.Open();
+                    var insertStatement = "INSERT INTO Event VALUES (@EventID, @Name, @Date, @Day, @Time)";
 
-            }
+                    SqlCommand insertCommand = new SqlCommand(insertStatement, conn);
 
-            SqlConnection.Close();
-            return events;
+                    insertCommand.Parameters.AddWithValue("@EventID", ev.EventId);
+                    insertCommand.Parameters.AddWithValue("@Name", ev.Name);
+                    insertCommand.Parameters.AddWithValue("@Date", ev.Date);
+                    insertCommand.Parameters.AddWithValue("@Day", ev.Day);
+                    insertCommand.Parameters.AddWithValue("@Time", ev.Time);
+
+                    insertCommand.ExecuteNonQuery();
+                }
+                }
         }
+
+        //public Event? GetEvent()
+        //{
+
+        //}
 
         public Event? GetEventByName(string name)
         {
-            throw new NotImplementedException();
-        }
+            string selectStatement = "SELECT EventID, Name, Date, Day, Time FROM Event WHERE Name = @Name";
 
+            SqlCommand selectCommand = new SqlCommand(selectStatement, SqlConnection);
+            selectCommand.Parameters.AddWithValue("@Name", name);
+
+            if (SqlConnection.State != ConnectionState.Open)
+            {
+                SqlConnection.Open();
+            }
+
+            SqlDataReader reader = selectCommand.ExecuteReader();
+
+            if (!reader.HasRows)
+            {
+                Console.WriteLine("Event does not exist.");
+                reader.Close();
+                SqlConnection.Close();
+                return null;
+            }
+
+            var ev = new Event();
+
+            while (reader.Read())
+            {
+                ev.EventId = Guid.Parse(reader["EventID"].ToString());
+                ev.Name = reader["Name"].ToString();
+                ev.Date = reader["Date"].ToString();
+                ev.Day = reader["Day"].ToString();
+                ev.Time = reader["Time"].ToString();
+            }
+
+            reader.Close();
+            SqlConnection.Close();
+
+            return ev;
+        }
         public Reminder? GetReminder()
         {
             string selecStatement = "SELECT ReminderID, Name, Date, Day, Time FROM Reminder";
@@ -139,11 +169,11 @@ namespace CalendarManagmentDataService
 
             SqlDataReader reader = selectCommand.ExecuteReader();
 
-            var  reminder = new Reminder();
+            var reminder = new Reminder();
 
             while (reader.Read())
             {
-                
+
                 reminder.ReminderId = Guid.Parse(reader["EventID"].ToString());
                 reminder.Name = reader["Name"].ToString();
                 reminder.Date = reader["Date"].ToString();
@@ -158,22 +188,105 @@ namespace CalendarManagmentDataService
 
         public Reminder? GetReminderByName(string name)
         {
-            throw new NotImplementedException();
-        }
-        public void RemoveReminder(string name)
-        {
-            throw new NotImplementedException();
+            string selectStatement = "SELECT ReminderID, Name, Date, Day, Time FROM Reminder WHERE Name = @Name";
+
+            SqlCommand selectCommand = new SqlCommand(selectStatement, SqlConnection);
+            selectCommand.Parameters.AddWithValue("@Name", name);
+
+            if (SqlConnection.State != ConnectionState.Open)
+            {
+                SqlConnection.Open();
+            }
+
+            SqlDataReader reader = selectCommand.ExecuteReader();
+
+  
+            if (!reader.HasRows)
+            {
+                Console.WriteLine("Reminder does not exist.");
+                reader.Close();
+                SqlConnection.Close();
+                return null; 
+            }
+
+            var reminder = new Reminder();
+
+            while (reader.Read())
+            {
+                reminder.ReminderId = Guid.Parse(reader["ReminderID"].ToString());
+                reminder.Name = reader["Name"].ToString();
+                reminder.Date = reader["Date"].ToString();
+                reminder.Day = reader["Day"].ToString();
+                reminder.Time = reader["Time"].ToString();
+            }
+
+            reader.Close();
+            SqlConnection.Close();
+
+            return reminder;
         }
 
-        public void RemoveEvent(string name)
+        public void RemoveReminder(string reminderName)
         {
-            throw new NotImplementedException();
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+
+                conn.Open();
+
+                string deleteStatement = "DELETE FROM Reminder WHERE Name = @Name";
+
+                using (SqlCommand deleteCommand = new SqlCommand(deleteStatement, conn))
+                {
+                    deleteCommand.Parameters.AddWithValue("@Name", reminderName);
+
+                    int rowsAffected = deleteCommand.ExecuteNonQuery();
+
+                    if (rowsAffected > 0)
+                    {
+                        Console.WriteLine("Reminder deleted successfully.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("No Reminder found with that name.");
+                    }
+                }
+            }
+        }
+
+        public void RemoveEvent(string eventName)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+
+                conn.Open();
+
+                string deleteStatement = "DELETE FROM Event WHERE Name = @Name";
+
+                using (SqlCommand deleteCommand = new SqlCommand(deleteStatement, conn))
+                {
+                    deleteCommand.Parameters.AddWithValue("@Name", eventName);
+
+                    int rowsAffected = deleteCommand.ExecuteNonQuery();
+
+                    if (rowsAffected > 0)
+                    {
+                        Console.WriteLine("Event deleted successfully.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("No Event found with that name.");
+                    }
+                }
+            }
         }
 
         public void UpdateEvent(Event ev)
         {
-            SqlConnection.Open();
 
+            if (SqlConnection.State != ConnectionState.Open)
+            {
+                SqlConnection.Open();
+            }
             var updateStatement = $"UPDATE Event SET Name = @Name, Date = @Date, Day = @Day, Time = @Time WHERE EventID = @EventID";
 
 
@@ -184,14 +297,20 @@ namespace CalendarManagmentDataService
             updateCommand.Parameters.AddWithValue("@Date", ev.Date);
             updateCommand.Parameters.AddWithValue("@Day", ev.Day);
             updateCommand.Parameters.AddWithValue("@Time", ev.Time);
+
+
             updateCommand.ExecuteNonQuery();
 
             SqlConnection.Close();
+
         }
 
         public void UpdateReminder(Reminder reminder)
         {
-            SqlConnection.Open();
+            if (SqlConnection.State != ConnectionState.Open)
+            {
+                SqlConnection.Open();
+            }
 
             var updateStatement = $"UPDATE Reminder SET Name = @Name, Date = @Date, Day = @Day, Time = @Time WHERE ReminderID = @ReminderID";
 
@@ -208,20 +327,88 @@ namespace CalendarManagmentDataService
             SqlConnection.Close();
         }
 
-        public void DeleteReminder(Reminder reminder)
+        public void DeleteReminder(string reminderName)
         {
-            throw new NotImplementedException();
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+
+                conn.Open();
+
+                string deleteStatement = "DELETE FROM Reminder WHERE Name = @Name";
+
+                using (SqlCommand deleteCommand = new SqlCommand(deleteStatement, conn))
+                {
+                    deleteCommand.Parameters.AddWithValue("@Name", reminderName);
+
+                    int rowsAffected = deleteCommand.ExecuteNonQuery();
+
+                    if (rowsAffected > 0)
+                    {
+                        Console.WriteLine("Reminder deleted successfully.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("No Reminder found with that name.");
+                    }
+                }
+            }
         }
 
-        public void DeleteEvents(Event ev)
+        public void DeleteEvents(string eventName)
         {
-            throw new NotImplementedException();
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+
+                string deleteStatement = "DELETE FROM Event WHERE Name = @Name";
+
+                using (SqlCommand deleteCommand = new SqlCommand(deleteStatement, conn))
+                {
+                    deleteCommand.Parameters.AddWithValue("@Name", eventName);
+
+                    int rowsAffected = deleteCommand.ExecuteNonQuery();
+
+                    if (rowsAffected > 0)
+                    {
+                        Console.WriteLine("Event deleted successfully.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("No event found with that name.");
+                    }
+                }
+            } 
         }
 
-        public void Remove(string name)
+
+        public void Remove(string reminderName)
         {
-            throw new NotImplementedException();
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+
+                conn.Open();
+
+                string deleteStatement = "DELETE FROM Reminder WHERE Name = @Name";
+
+                using (SqlCommand deleteCommand = new SqlCommand(deleteStatement, conn))
+                {
+                    deleteCommand.Parameters.AddWithValue("@Name", reminderName);
+
+                    int rowsAffected = deleteCommand.ExecuteNonQuery();
+
+                    if (rowsAffected > 0)
+                    {
+                        Console.WriteLine("Reminder deleted successfully.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("No Reminder found with that name.");
+                    }
+                }
+            }
         }
+
 
         public Reminder? GetReminderById(Guid id)
         {
@@ -279,7 +466,18 @@ namespace CalendarManagmentDataService
             throw new NotImplementedException();
         }
 
+
+        public void Add(object newReminder)
+        {
+            throw new NotImplementedException();
+        }
+
         public Event? GetEvent(string name)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Event? GetEvent()
         {
             throw new NotImplementedException();
         }
