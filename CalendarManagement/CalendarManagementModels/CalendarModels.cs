@@ -23,5 +23,11 @@ namespace CalendarManagementModels
         public bool Count { get; set; }
         public int Counts { get; set; }
     }
+
+    public class CalendarData
+    {
+        public Dictionary<string, Reminder> Reminders { get; set; }
+        public Dictionary<string, Event> Events { get; set; }
+    }
 }
 

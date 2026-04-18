@@ -48,46 +48,50 @@ namespace CalendarManagmentDataService
 
         private void SaveDataToJsonFile()
         {
-            using (var stream = File.OpenWrite(_jsonFileName))
+            using (var stream = File.Create(_jsonFileName))
             using (var writer = new Utf8JsonWriter(stream, new JsonWriterOptions { Indented = true }))
             {
-                writer.WriteStartObject(); // {
+                writer.WriteStartObject(); 
+
                 writer.WritePropertyName("Reminders");
-                JsonSerializer.Serialize(writer, reminders.Values.ToList()); // serialize reminders list
+                JsonSerializer.Serialize(writer, reminders); 
+
                 writer.WritePropertyName("Events");
-                JsonSerializer.Serialize(writer, events.Values.ToList());    // serialize events list
-                writer.WriteEndObject(); // }
+                JsonSerializer.Serialize(writer, events);    
+
+                writer.WriteEndObject(); 
             }
         }
 
         private void RetrieveDataFromJsonFile()
         {
+            if (!File.Exists(_jsonFileName))
+            {
+                reminders = new Dictionary<string, Reminder>();
+                events = new Dictionary<string, Event>();
+                return;
+            }
+
+            string json = File.ReadAllText(_jsonFileName);
+
+            if (string.IsNullOrWhiteSpace(json))
+            {
+                Console.WriteLine("JSON file is empty, initializing with empty dictionaries.");
+                reminders = new Dictionary<string, Reminder>();
+                events = new Dictionary<string, Event>();
+                return;
+            }
+
             var options = new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
             };
 
-            string json = File.ReadAllText(this._jsonFileName);
 
-            if (string.IsNullOrWhiteSpace(json))
-            {
-                Console.WriteLine("JSON file is empty, initializing with empty dictionaries.");
-                this.reminders = new Dictionary<string, Reminder>();
-                this.events = new Dictionary<string, Event>();
-                return;
-            }
+            var calendarData = JsonSerializer.Deserialize<CalendarData>(json, options);
 
-            using (var jsonFileReader = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(json)))
-            {
-                this.reminders = JsonSerializer.Deserialize<Dictionary<string, Reminder>>(jsonFileReader, options)
-                                  ?? new Dictionary<string, Reminder>();
-            }
-
-            using (var jsonFileReader = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(json)))
-            {
-                this.events = JsonSerializer.Deserialize<Dictionary<string, Event>>(jsonFileReader, options)
-                               ?? new Dictionary<string, Event>();
-            }
+            reminders = calendarData?.Reminders ?? new Dictionary<string, Reminder>();
+            events = calendarData?.Events ?? new Dictionary<string, Event>();
         }
 
         public void Add(Reminder reminder)
@@ -141,7 +145,7 @@ namespace CalendarManagmentDataService
 
         public void Add(Event ev)
         {
-            events[ev.Name] = ev;
+            events.Add(ev.Name, ev);
             SaveDataToJsonFile();
 
         }
@@ -214,7 +218,17 @@ namespace CalendarManagmentDataService
 
         public void UpdateEvent(Event ev)
         {
-            throw new NotImplementedException();
+            RetrieveDataFromJsonFile();
+
+            var existingEvent = GetEventByName(ev.Name);
+
+            if (existingEvent != null)
+            {
+                existingEvent.Date = ev.Date;
+                existingEvent.Day = ev.Day;
+                existingEvent.Time = ev.Time;
+                SaveDataToJsonFile();
+            }
         }
 
         public void DeleteReminder(string reminderName)
