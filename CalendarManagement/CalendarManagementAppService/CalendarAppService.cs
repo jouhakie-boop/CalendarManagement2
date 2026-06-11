@@ -1,9 +1,10 @@
-﻿using CalendarManagmentDataService;
-using CalendarManagementModels;
+﻿using CalendarManagementModels;
+using CalendarManagmentDataService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks.Sources;
+using System.Reflection.Metadata.Ecma335;
 
 namespace CalendarManagementAppService
 {
@@ -11,11 +12,17 @@ namespace CalendarManagementAppService
     {
         CalendarDataService calendarDataService = new CalendarDataService(new
             CalendarDBData());
-        public void CreateReminder(Reminder newReminder)
+        public bool CreateReminder(Reminder newReminder)
         {
-            Reminder reminder = new Reminder();
-            reminder = newReminder;
-            calendarDataService.Add(newReminder);
+            try
+            {
+                calendarDataService.Add(newReminder);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
         public void CreateEvent(Event newEvent)
         {
@@ -26,9 +33,15 @@ namespace CalendarManagementAppService
 
         public Reminder ViewReminder(string reminder)
         {
-          //  return calendarDataService.GetReminderById(ReminderId);
-           return calendarDataService.GetReminder(reminder);
+            //  return calendarDataService.GetReminderById(ReminderId);
+            return calendarDataService.GetReminder(reminder);
         }
+        public List<Reminder> ViewAllReminders()
+        {
+            return calendarDataService.GetReminderses();
+        }
+
+
 
         public void DeleteReminder(string name) => calendarDataService.DeleteReminder(name);
 
@@ -37,17 +50,21 @@ namespace CalendarManagementAppService
 
         public void DeleteEvent(string name) => calendarDataService.DeleteEvent(name);
 
-        public void UpdateReminder(string name, string date, string day, string time)
+        public void UpdateReminder(string name, Reminder reminder)
         {
-            var updatedReminder = new Reminder { Name = name, Date = date, Day = day, Time = time };
-            calendarDataService.UpdateReminder(name, updatedReminder);
-
+            calendarDataService.UpdateReminder(name, reminder);
         }
         public void UpdateEvent(string name, string date, string day, string time)
         {
             var updatedEvent = new Event { Name = name, Date = date, Day = day, Time = time };
             calendarDataService.UpdateEvent(name, updatedEvent);
-            
+
         }
+
+
+
+
+
     }
-    }
+
+}

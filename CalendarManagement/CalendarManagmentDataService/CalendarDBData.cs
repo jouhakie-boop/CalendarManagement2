@@ -38,35 +38,35 @@ namespace CalendarManagmentDataService
 
         private void AddSeeds()
         {
-            var existingReminder = GetReminder();
+            //var existingReminder = GetReminder();
 
 
 
-            if (existingReminder.Counts == 0)
-            {
-                Reminder TestReminder = new Reminder { Name = "Test Reminder", Date = "Oct 7, 2026", Day = "Wednesday", Time = "12 PM" };
-                Reminder TestRemider2 = new Reminder { Name = "Test Reminder 2", Date = "Oct 8, 2026", Day = "Thursday", Time = "1 PM" };
-                Reminder TestReminder3 = new Reminder { Name = "Test Reminder 3", Date = "Oct 9, 2026", Day = "Friday", Time = "2 PM" };
+            //if (existingReminder.Counts == 0)
+            //{
+            //    Reminder TestReminder = new Reminder { Name = "Test Reminder", Date = "Oct 7, 2026", Day = "Wednesday", Time = "12 PM" };
+            //    Reminder TestRemider2 = new Reminder { Name = "Test Reminder 2", Date = "Oct 8, 2026", Day = "Thursday", Time = "1 PM" };
+            //    Reminder TestReminder3 = new Reminder { Name = "Test Reminder 3", Date = "Oct 9, 2026", Day = "Friday", Time = "2 PM" };
 
 
-                Add(TestReminder);
-                Add(TestRemider2);
-                Add(TestReminder3);
+            //    Add(TestReminder);
+            //    Add(TestRemider2);
+            //    Add(TestReminder3);
 
-            }
+            //}
 
-            var existingEvents = GetEvent();
+            //var existingEvents = GetEvent();
 
-            if (existingEvents.Counts == 0)
-            {
-                Event TestEvent = new Event { Name = "Test Event", Date = "Oct 10, 2026", Day = "Saturday", Time = "3 PM" };
-                Event TestEvent2 = new Event { Name = "Test Event 2", Date = "Oct 11, 2026", Day = "Sunday", Time = "4 PM" };
-                Event TestEvent3 = new Event { Name = "Test Event 3", Date = "Oct 12, 2026", Day = "Monday", Time = "5 PM" };
+            //if (existingEvents.Counts == 0)
+            //{
+            //    Event TestEvent = new Event { Name = "Test Event", Date = "Oct 10, 2026", Day = "Saturday", Time = "3 PM" };
+            //    Event TestEvent2 = new Event { Name = "Test Event 2", Date = "Oct 11, 2026", Day = "Sunday", Time = "4 PM" };
+            //    Event TestEvent3 = new Event { Name = "Test Event 3", Date = "Oct 12, 2026", Day = "Monday", Time = "5 PM" };
 
-                Add(TestEvent);
-                Add(TestEvent2);
-                Add(TestEvent3);
-            }
+            //    Add(TestEvent);
+            //    Add(TestEvent2);
+            //    Add(TestEvent3);
+            //}
         }
 
         public void Add(Reminder reminder)
@@ -181,33 +181,40 @@ namespace CalendarManagmentDataService
 
             return ev;
         }
-        public Reminder? GetReminder()
+
+        public List<Reminder> GetAllReminders()
         {
-            //string selecStatement = "SELECT ReminderID, Name, Date, Day, Time FROM Reminder";
+            var reminders = new List<Reminder>();
 
-            //SqlCommand selectCommand = new SqlCommand(selecStatement, SqlConnection);
+            string query = "SELECT ReminderID, Name, Date, Day, Time FROM Reminder";
 
-            //SqlConnection.Open();
+            using (var conn = new SqlConnection(connectionString))
+            using (var cmd = new SqlCommand(query, conn))
+            {
+                conn.Open();
 
-            //SqlDataReader reader = selectCommand.ExecuteReader();
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        reminders.Add(new Reminder
+                        {
+                            ReminderId = reader["ReminderID"] == DBNull.Value
+                                ? Guid.Empty
+                                : Guid.Parse(reader["ReminderID"].ToString()),
 
-            //var reminder = new Reminder();
+                            Name = reader["Name"]?.ToString(),
+                            Date = reader["Date"]?.ToString(),
+                            Day = reader["Day"]?.ToString(),
+                            Time = reader["Time"]?.ToString()
+                        });
+                    }
+                }
+            }
 
-            //while (reader.Read())
-            //{
-
-            //    reminder.ReminderId = Guid.Parse(reader["EventID"].ToString());
-            //    reminder.Name = reader["Name"].ToString();
-            //    reminder.Date = reader["Date"].ToString();
-            //    reminder.Day = reader["Day"].ToString();
-            //    reminder.Time = reader["Time"].ToString();
-
-            //}
-
-            //SqlConnection.Close();
-            //return reminder; 
-            throw new NotImplementedException();
-        }
+            return reminders;
+        } 
+        
 
         public Reminder? GetReminderByName(string name)
         {
@@ -249,7 +256,7 @@ namespace CalendarManagmentDataService
             return reminder;
         }
 
-        public void RemoveReminder(string reminderName)
+        public bool RemoveReminder(string reminderName)
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
@@ -264,14 +271,7 @@ namespace CalendarManagmentDataService
 
                     int rowsAffected = deleteCommand.ExecuteNonQuery();
 
-                    if (rowsAffected > 0)
-                    {
-                        Console.WriteLine("Reminder deleted successfully.");
-                    }
-                    else
-                    {
-                        Console.WriteLine("No Reminder found with that name.");
-                    }
+                    return rowsAffected > 0;
                 }
             }
         }
@@ -328,26 +328,28 @@ namespace CalendarManagmentDataService
 
         }
 
-        public void UpdateReminder(Reminder reminder)
+        public void UpdateReminder(string originalName, Reminder reminder)
         {
-            if (SqlConnection.State != ConnectionState.Open)
+            string updateStatement = @"
+        UPDATE Reminder 
+        SET Name = @Name, 
+            Date = @Date, 
+            Day = @Day, 
+            Time = @Time 
+        WHERE Name = @OriginalName";
+
+            using (var conn = new SqlConnection(connectionString))
+            using (var cmd = new SqlCommand(updateStatement, conn))
             {
-                SqlConnection.Open();
+                cmd.Parameters.AddWithValue("@OriginalName", originalName);
+                cmd.Parameters.AddWithValue("@Name", reminder.Name);
+                cmd.Parameters.AddWithValue("@Date", reminder.Date);
+                cmd.Parameters.AddWithValue("@Day", reminder.Day);
+                cmd.Parameters.AddWithValue("@Time", reminder.Time);
+
+                conn.Open();
+                cmd.ExecuteNonQuery();
             }
-
-            var updateStatement = $"UPDATE Reminder SET Name = @Name, Date = @Date, Day = @Day, Time = @Time WHERE ReminderID = @ReminderID";
-
-
-            SqlCommand updateCommand = new SqlCommand(updateStatement, SqlConnection);
-
-            updateCommand.Parameters.AddWithValue("@ReminderID", reminder.ReminderId);
-            updateCommand.Parameters.AddWithValue("@Name", reminder.Name);
-            updateCommand.Parameters.AddWithValue("@Date", reminder.Date);
-            updateCommand.Parameters.AddWithValue("@Day", reminder.Day);
-            updateCommand.Parameters.AddWithValue("@Time", reminder.Time);
-            updateCommand.ExecuteNonQuery();
-
-            SqlConnection.Close();
         }
 
         public void DeleteReminder(string reminderName)
@@ -482,6 +484,10 @@ namespace CalendarManagmentDataService
             throw new NotImplementedException();
         }
 
+       
+
+        
+
         public bool ReminderExists(string name)
         {
             throw new NotImplementedException();
@@ -504,6 +510,21 @@ namespace CalendarManagmentDataService
         }
 
         public Event? GetEvent()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Reminder? GetReminder()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Reminder? GetAllReminder()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateReminder(Reminder reminder)
         {
             throw new NotImplementedException();
         }

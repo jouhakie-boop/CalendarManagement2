@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Intercom.Dotnet.Client" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="7.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Http.Resilience" Version="10.2.0" />
+    <PackageReference Include="Microsoft.Extensions.ServiceDiscovery" Version="10.2.0" />
+    <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.15.3" />
+    <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.15.3" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.15.2" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.15.1" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.Runtime" Version="1.15.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="10.2.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="CalendarManagementAppService">
+      <HintPath>..\..\CalendarManagement\CalendarManagementAppService\bin\Debug\net8.0\CalendarManagementAppService.dll</HintPath>
+    </Reference>
+    <Reference Include="CalendarManagementModels">
+      <HintPath>..\..\CalendarManagement\CalendarManagementAppService\bin\Debug\net8.0\CalendarManagementModels.dll</HintPath>
+    </Reference>
+    <Reference Include="CalendarManagmentDataService">
+      <HintPath>..\..\CalendarManagement\CalendarManagementAppService\bin\Debug\net8.0\CalendarManagmentDataService.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>

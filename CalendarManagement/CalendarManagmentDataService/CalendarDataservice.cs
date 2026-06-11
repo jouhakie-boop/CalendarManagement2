@@ -35,6 +35,12 @@ namespace CalendarManagmentDataService
         {
             return _dataService.GetReminderByName(name);
         }
+        public List<Reminder> GetReminderses()
+        {
+            return _dataService.GetAllReminders();
+        }
+
+
         public bool ReminderExists(string name)
         {
             return _dataService.ReminderExists(name);
@@ -45,9 +51,13 @@ namespace CalendarManagmentDataService
         public Event GetEvent(string name) => _dataService.GetEventByName(name);
         public bool EventExists(string name) => _dataService.EventExists(name);
         public void DeleteEvent(string name) => _dataService.RemoveEvent(name);
-        public void UpdateReminder(string name, Reminder reminder) => _dataService.UpdateReminder(reminder);
+        public void UpdateReminder(string name, Reminder reminder) => _dataService.UpdateReminder(name, reminder);
         public void UpdateEvent(string name, Event newEvent) => _dataService.UpdateEvent(newEvent);
 
+        public List<Reminder> GetAllReminders()
+        {
+            return _dataService.GetAllReminders();
+        }
 
     }
 }

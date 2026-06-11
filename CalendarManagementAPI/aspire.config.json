@@ -1,0 +1,5 @@
+{
+  "appHost": {
+    "path": "CalendarManagementAPI.AppHost/CalendarManagementAPI.AppHost.csproj"
+  }
+}

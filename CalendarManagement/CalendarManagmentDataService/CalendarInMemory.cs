@@ -144,7 +144,7 @@ namespace CalendarManagmentDataService
             throw new NotImplementedException();
         }
 
-        void ICalendarDataService.UpdateReminder(Reminder reminder)
+        void ICalendarDataService.UpdateReminder(string name, Reminder reminder)
         {
             throw new NotImplementedException();
         }
@@ -189,10 +189,7 @@ namespace CalendarManagmentDataService
             throw new NotImplementedException();
         }
 
-        void ICalendarDataService.RemoveReminder(string reminderName)
-        {
-            throw new NotImplementedException();
-        }
+       
 
         Event? ICalendarDataService.GetEventById(Guid id)
         {
@@ -220,6 +217,26 @@ namespace CalendarManagmentDataService
         }
 
         public void RemoveEvent(string eventName)
+        {
+            throw new NotImplementedException();
+        }
+
+        List<Reminder> ICalendarDataService.GetAllReminders()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Reminder? GetAllReminder()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateReminder(string name, Reminder reminder)
+        {
+            throw new NotImplementedException();
+        }
+
+        bool ICalendarDataService.RemoveReminder(string reminderName)
         {
             throw new NotImplementedException();
         }

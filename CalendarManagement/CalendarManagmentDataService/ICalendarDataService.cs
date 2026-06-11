@@ -6,13 +6,15 @@ namespace CalendarManagmentDataService
     public interface ICalendarDataService
     {
         void Add(Reminder reminder);
-        Reminder? GetReminder();
+        Reminder? GetAllReminder();
         Reminder? GetReminderByName(string name);
-        void UpdateReminder(Reminder reminder);
+        void UpdateReminder(string name, Reminder reminder);
         void DeleteReminder(string reminderName);
-        void RemoveReminder(string reminderName);
+        bool RemoveReminder(string reminderName);
         Reminder? GetReminderById(Guid id);
         bool ReminderExists(string name);
+        List<Reminder> GetAllReminders();
+
 
         void Add(Event ev);
         Event? GetEvent();
@@ -24,5 +26,6 @@ namespace CalendarManagmentDataService
         bool EventExists(string name);
         void Add(object newReminder);
         Event? GetEvent(string name);
+        Reminder? GetReminder();
     }
 }

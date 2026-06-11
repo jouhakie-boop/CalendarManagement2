@@ -260,6 +260,26 @@ namespace CalendarManagmentDataService
         {
             throw new NotImplementedException();
         }
+
+        List<Reminder> ICalendarDataService.GetAllReminders()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Reminder? GetAllReminder()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateReminder(string name, Reminder reminder)
+        {
+            throw new NotImplementedException();
+        }
+
+        bool ICalendarDataService.RemoveReminder(string reminderName)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 
