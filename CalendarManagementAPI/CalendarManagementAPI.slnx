@@ -1,4 +1,0 @@
-<Solution>
-  <Project Path="CalendarManagementAPI.AppHost/CalendarManagementAPI.AppHost.csproj" />
-  <Project Path="CalendarManagementAPI.Server/CalendarManagementAPI.Server.csproj" />
-</Solution>
