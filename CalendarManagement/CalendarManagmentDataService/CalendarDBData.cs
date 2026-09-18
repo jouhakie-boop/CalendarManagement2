@@ -7,15 +7,20 @@ namespace CalendarManagmentDataService
 {
     public class CalendarDBData : ICalendarDataService
     {
-        private string? connectionString
-     =   "Data Source=localhost\\SQLEXPRESS;Initial Catalog=CalendarManagement;Integrated Security=True;TrustServerCertificate=True";
+
+        private string connectionString =
+    @"Data Source=(localdb)\ProjectModels;Initial Catalog=CalendarManagement;Integrated Security=True;TrustServerCertificate=True";
+
         private SqlConnection SqlConnection;
 
         public CalendarDBData()
         {
             SqlConnection = new SqlConnection(connectionString);
 
-            SqlConnection.Open();
+            if (SqlConnection.State == ConnectionState.Closed)
+            {
+                SqlConnection.Open();
+            }
         }
 
         public bool TestConnection()

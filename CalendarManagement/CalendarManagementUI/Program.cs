@@ -5,13 +5,16 @@ using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.DependencyInjection;
 using System.Dynamic;
 using System.Xml.Linq;
+using MailKit.Net.Smtp;
 
 namespace CalendarManagementUI
 {
     internal class Program
     {
-        static void Main(string[] args)        {
-                    DisplayMenu();
+        static void Main(string[] args)        
+        {
+
+            DisplayMenu();
            
         }
 

@@ -12,11 +12,26 @@ namespace CalendarManagementAppService
     {
         CalendarDataService calendarDataService = new CalendarDataService(new
             CalendarDBData());
+
+        EmailService emailService = new EmailService();
+
+
+
         public bool CreateReminder(Reminder newReminder)
         {
             try
             {
                 calendarDataService.Add(newReminder);
+
+                try
+                {
+                    emailService.SendEmail(newReminder.Name, "Reminder", newReminder.Date, newReminder.Day, newReminder.Time);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Reminder saved, but email notification failed: {ex.Message}");
+                }
+
                 return true;
             }
             catch
@@ -29,6 +44,15 @@ namespace CalendarManagementAppService
             Event ev = new Event();
             ev = newEvent;
             calendarDataService.Add(newEvent);
+
+            try
+            {
+                emailService.SendEmail(newEvent.Name, "Event", newEvent.Date, newEvent.Day, newEvent.Time);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Event saved, but email notification failed: {ex.Message}");
+            }
         }
 
         public Reminder ViewReminder(string reminder)

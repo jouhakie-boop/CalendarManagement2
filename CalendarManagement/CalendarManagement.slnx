@@ -1,7 +1,5 @@
 <Solution>
-  <Folder Name="/Solution Items/">
-    <File Path="Class1.cs" />
-  </Folder>
+  <Folder Name="/Solution Items/" />
   <Project Path="../../../../../../source/repos/CalendarManagement2/CalendarManagement/CalendarManagementAppService/CalendarManagementAppService.csproj" />
   <Project Path="../../../../../../source/repos/CalendarManagement2/CalendarManagement/CalendarManagementModels/CalendarManagementModels.csproj" />
   <Project Path="../../../../../../source/repos/CalendarManagement2/CalendarManagement/CalendarManagementUI/CalendarManagementUI.csproj" Id="3eb5f9dd-e87d-4dcc-9806-3c8e7aac5fd2" />
